@@ -1,10 +1,12 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import type React from "react";
 import gsap from "gsap";
 import { MessageCircleHeart } from "lucide-react";
-import { useSiteData } from "@/lib/data-context";
-import type { SocialPlatform } from "@/lib/types";
+import type { SocialLink, SocialPlatform } from "@/lib/types";
+
+const API = process.env.NEXT_PUBLIC_API_URL ?? "https://mundoedmbackend.onrender.com";
 
 const PLATFORM_COLORS: Record<SocialPlatform, string> = {
   instagram: "#E1306C",
@@ -35,12 +37,37 @@ const PLATFORM_ICONS: Record<SocialPlatform, React.ReactNode> = {
 };
 
 export function SocialSection() {
-  const { data } = useSiteData();
+  const [links, setLinks] = useState<SocialLink[]>([]);
   const ctaRef = useRef<HTMLAnchorElement>(null);
   const glowRef = useRef<HTMLSpanElement>(null);
 
-  const whatsappLink = data.social.find((l) => l.platform === "whatsapp");
-  const otherLinks = data.social.filter((l) => l.platform !== "whatsapp");
+  useEffect(() => {
+    let cancelled = false;
+
+    async function load() {
+      try {
+        const res = await fetch(`${API}/api/content/social`);
+        if (!res.ok) return;
+        const data = (await res.json()) as SocialLink[];
+        if (!cancelled) {
+          setLinks(data ?? []);
+        }
+      } catch {
+        if (!cancelled) {
+          setLinks([]);
+        }
+      }
+    }
+
+    load();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const whatsappLink = links.find((l) => l.platform === "whatsapp");
+  const otherLinks = links.filter((l) => l.platform !== "whatsapp");
 
   useEffect(() => {
     const cta = ctaRef.current;

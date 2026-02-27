@@ -7,11 +7,11 @@ gsap.registerPlugin(ScrollToPlugin);
 
 export function Navigation() {
   const sections = [
-    { id: "hero", label: "hero" },
+    { id: "hero", label: "início" },
     { id: "timeline", label: "timeline" },
-    { id: "memories", label: "memories" },
-    { id: "legends", label: "legends" },
-    { id: "playlist", label: "playlist" },
+    { id: "memories", label: "memórias" },
+    { id: "legends", label: "lendas" },
+    { id: "playlist", label: "playlistS" },
     { id: "social", label: "social" },
   ];
 
