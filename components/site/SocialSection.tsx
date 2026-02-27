@@ -1,12 +1,19 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import type React from "react";
 import gsap from "gsap";
 import { MessageCircleHeart } from "lucide-react";
-import type { SocialLink, SocialPlatform } from "@/lib/types";
+import type { SocialPlatform } from "@/lib/types";
 
-const API = process.env.NEXT_PUBLIC_API_URL ?? "https://mundoedmbackend.onrender.com";
+type SocialItem = { id: string; name: string; href: string; platform: SocialPlatform };
+
+const SOCIAL_LINKS: SocialItem[] = [
+  { id: "whatsapp", name: "WhatsApp", href: "https://wa.me/5511999999999", platform: "whatsapp" },
+  { id: "instagram", name: "Instagram", href: "https://instagram.com/mundoedmoficial", platform: "instagram" },
+  { id: "tiktok", name: "TikTok", href: "https://tiktok.com/@mundoedmoficial", platform: "tiktok" },
+  { id: "youtube", name: "YouTube", href: "https://youtube.com/@mundoedmoficial", platform: "youtube" },
+];
 
 const PLATFORM_COLORS: Record<SocialPlatform, string> = {
   instagram: "#E1306C",
@@ -37,37 +44,11 @@ const PLATFORM_ICONS: Record<SocialPlatform, React.ReactNode> = {
 };
 
 export function SocialSection() {
-  const [links, setLinks] = useState<SocialLink[]>([]);
   const ctaRef = useRef<HTMLAnchorElement>(null);
   const glowRef = useRef<HTMLSpanElement>(null);
 
-  useEffect(() => {
-    let cancelled = false;
-
-    async function load() {
-      try {
-        const res = await fetch(`${API}/api/content/social`);
-        if (!res.ok) return;
-        const data = (await res.json()) as SocialLink[];
-        if (!cancelled) {
-          setLinks(data ?? []);
-        }
-      } catch {
-        if (!cancelled) {
-          setLinks([]);
-        }
-      }
-    }
-
-    load();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  const whatsappLink = links.find((l) => l.platform === "whatsapp");
-  const otherLinks = links.filter((l) => l.platform !== "whatsapp");
+  const whatsappLink = SOCIAL_LINKS.find((l) => l.platform === "whatsapp");
+  const otherLinks = SOCIAL_LINKS.filter((l) => l.platform !== "whatsapp");
 
   useEffect(() => {
     const cta = ctaRef.current;
@@ -115,7 +96,7 @@ export function SocialSection() {
         <div className="cin-entry mx-auto max-w-3xl text-center">
           <h2 className="mb-4 text-4xl font-bold text-white md:text-6xl">Social</h2>
           <p className="mx-auto max-w-2xl text-gray-400 md:text-lg">
-            Entre para a comunidade com um unico clique.
+            Entre para a comunidade com um único clique.
           </p>
         </div>
 
