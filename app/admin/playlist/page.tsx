@@ -20,7 +20,7 @@ export default function PlaylistAdmin() {
   return (
     <YouTubeSelector
       title="Playlists"
-      description="Selecione as playlists do canal que aparecerao na secao Playlist do site."
+      description="Selecione as playlists do canal que aparecerão na seção Playlist do site."
       fetchEndpoint="/api/youtube/playlists"
       selectedIds={selectedIds}
       onSave={savePlaylistSelection}

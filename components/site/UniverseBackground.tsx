@@ -27,7 +27,7 @@ export function UniverseBackground() {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
     const particlesGeometry = new THREE.BufferGeometry();
-    const particlesCount = 900;
+    const particlesCount = 500;
     const posArray = new Float32Array(particlesCount * 3);
     const colorArray = new Float32Array(particlesCount * 3);
 
@@ -63,7 +63,7 @@ export function UniverseBackground() {
     scene.add(particles);
 
     const starsGeometry = new THREE.BufferGeometry();
-    const starsCount = 8000;
+    const starsCount = 10000;
     const starsArray = new Float32Array(starsCount * 3);
     for (let i = 0; i < starsCount * 3; i++) {
       starsArray[i] = (Math.random() - 0.5) * 200;

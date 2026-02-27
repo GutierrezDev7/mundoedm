@@ -8,7 +8,7 @@ import { clearAdminToken } from "@/lib/auth-admin";
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/timeline", label: "Timeline", icon: Clock },
-  { href: "/admin/memories", label: "Memorias", icon: Film },
+  { href: "/admin/memories", label: "Memórias", icon: Film },
   { href: "/admin/legends", label: "Lendas", icon: Crown },
   { href: "/admin/playlist", label: "Playlist", icon: Headphones },
   { href: "/admin/social", label: "Social", icon: Share2 },

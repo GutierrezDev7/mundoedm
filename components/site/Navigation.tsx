@@ -11,7 +11,7 @@ export function Navigation() {
     { id: "timeline", label: "timeline" },
     { id: "memories", label: "memórias" },
     { id: "legends", label: "lendas" },
-    { id: "playlist", label: "playlistS" },
+    { id: "playlist", label: "playlist" },
     { id: "social", label: "social" },
   ];
 
@@ -33,7 +33,7 @@ export function Navigation() {
 
     gsap.to(window, {
       scrollTo: { y: element, offsetY: 0 },
-      duration: 1.5,
+      duration: 0.3,
       ease: "power3.inOut",
     });
     setIsMenuOpen(false);

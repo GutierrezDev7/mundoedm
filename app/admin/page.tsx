@@ -6,7 +6,7 @@ import { useSiteData } from "@/lib/data-context";
 
 const sections = [
   { key: "timeline" as const, label: "Timeline", icon: Clock, href: "/admin/timeline", color: "from-yellow-600 to-yellow-800", desc: "CRUD manual" },
-  { key: "memories" as const, label: "Memorias", icon: Film, href: "/admin/memories", color: "from-purple-600 to-purple-800", desc: "Shorts do YouTube" },
+  { key: "memories" as const, label: "Memórias", icon: Film, href: "/admin/memories", color: "from-purple-600 to-purple-800", desc: "Shorts do YouTube" },
   { key: "legends" as const, label: "Lendas", icon: Crown, href: "/admin/legends", color: "from-amber-600 to-amber-800", desc: "Videos do YouTube" },
   { key: "playlist" as const, label: "Playlist", icon: Headphones, href: "/admin/playlist", color: "from-green-600 to-green-800", desc: "Playlists do canal" },
   { key: "social" as const, label: "Social", icon: Share2, href: "/admin/social", color: "from-blue-600 to-blue-800", desc: "CRUD manual" },
@@ -19,7 +19,7 @@ export default function AdminDashboard() {
     <div>
       <div className="mb-10">
         <h1 className="text-3xl font-bold text-white">Dashboard</h1>
-        <p className="mt-1 text-gray-500">Gerencie o conteudo de todas as secoes do Mundo EDM.</p>
+        <p className="mt-1 text-gray-500">Gerencie o conteúdo de todas as seções do Mundo EDM.</p>
       </div>
 
       {loading ? (

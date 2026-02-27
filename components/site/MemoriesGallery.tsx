@@ -53,10 +53,10 @@ export function MemoriesGallery() {
         <div className="cin-entry mb-12 text-center">
           <h2 className="mb-4 text-5xl font-bold text-white md:text-7xl">
             <span className="bg-gradient-to-r from-yellow-600 via-yellow-400 to-yellow-600 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(234,179,8,0.5)]">
-              MEMORIAS
+              MEMÓRIAS
             </span>
           </h2>
-          <p className="text-lg text-gray-500">Momentos inesqueciveis em formato curto</p>
+          <p className="text-lg text-gray-500">Momentos inesquecíveis em formato curto</p>
         </div>
       </div>
 

@@ -20,7 +20,7 @@ export default function TimelineAdmin() {
   return (
     <YouTubeSelector
       title="Timeline"
-      description="Selecione os videos que aparecerao na secao Timeline do site. Apenas videos regulares (sem shorts)."
+      description="Selecione os vídeos que aparecerão na seção Timeline do site. Apenas vídeos regulares (sem shorts)."
       fetchEndpoint="/api/youtube/videos"
       selectedIds={selectedIds}
       onSave={saveTimelineSelection}

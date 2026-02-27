@@ -19,8 +19,8 @@ export default function MemoriesAdmin() {
 
   return (
     <YouTubeSelector
-      title="Memorias"
-      description="Selecione os shorts que aparecerao na secao Memorias do site."
+      title="Memórias"
+      description="Selecione os shorts que aparecerão na seção Memórias do site."
       fetchEndpoint="/api/youtube/shorts"
       selectedIds={selectedIds}
       onSave={saveMemoriesSelection}

@@ -247,8 +247,8 @@ export function HeroSection() {
         </div>
 
         <p className="hero-subtitle mb-6 text-xl font-light tracking-wide text-gray-400 md:text-3xl">
-          Um santuario digital para as memorias que moldaram
-          <br />a cultura da musica eletronica
+          Um santuário digital para as memórias que moldaram
+          <br />a cultura da música eletrônica
         </p>
 
         <div className="hero-cta mb-10 flex flex-wrap items-center justify-center gap-4 text-sm uppercase tracking-widest md:text-base">

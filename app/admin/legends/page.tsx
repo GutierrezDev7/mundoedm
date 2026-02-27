@@ -20,7 +20,7 @@ export default function LegendsAdmin() {
   return (
     <YouTubeSelector
       title="Lendas"
-      description="Selecione os videos de historias que aparecerao na secao Lendas do site."
+      description="Selecione os vídeos de histórias que aparecerão na seção Lendas do site."
       fetchEndpoint="/api/youtube/videos"
       selectedIds={selectedIds}
       onSave={saveLegendsSelection}

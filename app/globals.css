@@ -1,13 +1,52 @@
 @import "tailwindcss";
 
-/* Gotham (colocar arquivos .woff2 em public/fonts/ para carregar no site) */
+/* Gotham – família completa (arquivos em public/fonts/) */
+@font-face {
+  font-family: "Gotham";
+  src:
+    local("Gotham Thin"),
+    url("/fonts/Gotham%20Thin/Gotham%20Thin.otf") format("opentype");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gotham";
+  src:
+    local("Gotham Extra Light"),
+    url("/fonts/Gotham%20Extra%20Light/Gotham%20Extra%20Light.otf") format("opentype");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gotham";
+  src:
+    local("Gotham Light"),
+    url("/fonts/Gotham%20Light/Gotham%20Light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
 @font-face {
   font-family: "Gotham";
   src:
     local("Gotham Book"),
     local("Gotham-Book"),
-    url("/fonts/Gotham-Book.woff2") format("woff2"),
-    url("/fonts/Gotham-Book.woff") format("woff");
+    url("/fonts/Gotham%20Book/Gotham%20Book.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gotham";
+  src:
+    local("Gotham Regular"),
+    url("/fonts/Gotham%20Regular/Gotham%20Regular.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -17,9 +56,7 @@
   font-family: "Gotham";
   src:
     local("Gotham Medium"),
-    local("Gotham-Medium"),
-    url("/fonts/Gotham-Medium.woff2") format("woff2"),
-    url("/fonts/Gotham-Medium.woff") format("woff");
+    url("/fonts/Gotham%20Medium/Gotham%20Medium.otf") format("opentype");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -29,30 +66,108 @@
   font-family: "Gotham";
   src:
     local("Gotham Bold"),
-    local("Gotham-Bold"),
-    url("/fonts/Gotham-Bold.woff2") format("woff2"),
-    url("/fonts/Gotham-Bold.woff") format("woff");
+    url("/fonts/Gotham%20Bold/Gotham%20Bold.otf") format("opentype");
   font-weight: 700;
   font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gotham";
+  src:
+    local("Gotham Black"),
+    url("/fonts/Gotham%20Black/Gotham%20Black.otf") format("opentype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gotham";
+  src:
+    local("Gotham Ultra"),
+    url("/fonts/Gotham%20Ultra/Gotham%20Ultra.otf") format("opentype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Gotham itálicos */
+@font-face {
+  font-family: "Gotham";
+  src:
+    local("Gotham Thin Italic"),
+    url("/fonts/Gotham%20Thin%20Italic/Gotham%20Thin%20Italic.otf") format("opentype");
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gotham";
+  src:
+    local("Gotham Extra Light Italic"),
+    url("/fonts/Gotham%20Extra%20Light%20Italic/Gotham%20Extra%20Light%20Italic.otf") format("opentype");
+  font-weight: 200;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gotham";
+  src:
+    local("Gotham Italic"),
+    url("/fonts/Gotham%20Italic/Gotham%20Italic.otf") format("opentype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gotham";
+  src:
+    local("Gotham ItalicBold"),
+    url("/fonts/Gotham%20ItalicBold/Gotham%20ItalicBold.otf") format("opentype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gotham";
+  src:
+    local("Gotham Bold Italic"),
+    url("/fonts/Gotham%20Bold%20Italic/Gotham%20Bold%20Italic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: italic;
   font-display: swap;
 }
 
 :root {
   --background: #000000;
   --foreground: #ededed;
-  --font-gotham: "Gotham", var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  /* --font-gotham é injetado pelo next/font/local no layout (className gotham.variable) */
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-gotham);
-  --font-mono: var(--font-geist-mono);
+  --font-mono: var(--font-gotham);
 }
 
 * {
-  font-family: var(--font-gotham);
+  font-family: var(--font-gotham) !important;
   transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+html,
+body {
+  font-family: var(--font-gotham) !important;
+}
+
+.font-gotham {
+  font-family: var(--font-gotham) !important;
 }
 
 .animate-bounce,

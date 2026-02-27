@@ -39,10 +39,10 @@ export default function AdminLoginPage() {
         router.replace("/admin");
         router.refresh();
       } else {
-        setError("Resposta invalida do servidor");
+        setError("Resposta inválida do servidor");
       }
     } catch {
-      setError("Falha de conexao. Verifique se o backend esta rodando.");
+      setError("Falha de conexão. Verifique se o backend está rodando.");
     }
     setLoading(false);
   };
@@ -57,7 +57,7 @@ export default function AdminLoginPage() {
             className="h-24 w-auto object-contain [filter:brightness(0)_invert(1)] md:h-60"
           />
         </div>
-        <p className="mb-8 text-center text-sm text-gray-500">Entre com seu usuario e senha</p>
+        <p className="mb-8 text-center text-sm text-gray-500">Entre com seu usuário e senha</p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
@@ -68,7 +68,7 @@ export default function AdminLoginPage() {
 
           <div>
             <label htmlFor="username" className="mb-1.5 block text-xs font-medium text-gray-500">
-              Usuario
+              Usuário
             </label>
             <div className="relative">
               <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
@@ -80,7 +80,7 @@ export default function AdminLoginPage() {
                 autoComplete="username"
                 required
                 className="w-full rounded-lg border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-white placeholder-gray-500 outline-none focus:border-yellow-500/50"
-                placeholder="usuario"
+                placeholder="usuário"
               />
             </div>
           </div>

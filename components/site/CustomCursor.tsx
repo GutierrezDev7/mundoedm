@@ -1,126 +1,139 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import * as THREE from "three";
-import gsap from "gsap";
 
-const CURSOR_SIZE = 36;
-const HALF = CURSOR_SIZE / 2;
-
-const SECTION_CONFIGS: Record<string, { speed: number; emissive: number; ringVisible: boolean; glowColor: string }> = {
-  hero: { speed: 0.6, emissive: 0x4d2b05, ringVisible: false, glowColor: "rgba(251,191,36,0.25)" },
-  timeline: { speed: 2.4, emissive: 0x6b3a08, ringVisible: false, glowColor: "rgba(251,191,36,0.3)" },
-  memories: { speed: 1.2, emissive: 0x7c4a10, ringVisible: false, glowColor: "rgba(251,191,36,0.35)" },
-  legends: { speed: 1.0, emissive: 0x8b6914, ringVisible: false, glowColor: "rgba(218,165,32,0.4)" },
-  playlist: { speed: 0.9, emissive: 0x4d2b05, ringVisible: true, glowColor: "rgba(251,191,36,0.3)" },
-  social: { speed: 0.7, emissive: 0x166534, ringVisible: false, glowColor: "rgba(34,197,94,0.35)" },
-};
-
-const DEFAULT_CONFIG = { speed: 0.8, emissive: 0x4d2b05, ringVisible: false, glowColor: "rgba(251,191,36,0.2)" };
+const SIZE = 20;
+const TRAIL_SIZE = 48;
+const HALF = SIZE / 2;
+const TRAIL_HALF = TRAIL_SIZE / 2;
 
 export function CustomCursor() {
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const dotRef = useRef<HTMLDivElement>(null);
+  const trailRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const wrapper = wrapperRef.current;
-    const canvas = canvasRef.current;
-    if (!wrapper || !canvas) return;
+    const dot = dotRef.current;
+    const trail = trailRef.current;
+    if (!wrapper || !dot || !trail) return;
 
-    const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
-    if (isTouchDevice) {
+    if (window.matchMedia("(pointer: coarse)").matches) {
       wrapper.style.display = "none";
       return;
     }
 
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 10);
-    camera.position.z = 3;
+    let mouseX = 0;
+    let mouseY = 0;
+    let cursorX = 0;
+    let cursorY = 0;
+    let trailX = 0;
+    let trailY = 0;
+    let scale = 1;
+    let targetScale = 1;
+    let visible = false;
 
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-    renderer.setSize(CURSOR_SIZE, CURSOR_SIZE);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setClearColor(0x000000, 0);
+    const INTERACTIVE = "a, button, [role='button'], .social-cta, input, select, textarea";
 
-    const globeGeo = new THREE.SphereGeometry(0.55, 20, 20);
-    const globeMat = new THREE.MeshBasicMaterial({
-      color: 0xfcd34d,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.7,
-    });
-    const globe = new THREE.Mesh(globeGeo, globeMat);
-    scene.add(globe);
+    wrapper.style.opacity = "0";
+    wrapper.style.left = "0";
+    wrapper.style.top = "0";
 
-    const ringGeo = new THREE.TorusGeometry(0.85, 0.02, 12, 60);
-    const ringMat = new THREE.MeshBasicMaterial({ color: 0xfbbf24, transparent: true, opacity: 0 });
-    const ring = new THREE.Mesh(ringGeo, ringMat);
-    ring.rotation.x = Math.PI / 2.5;
-    scene.add(ring);
-
-    const quickX = gsap.quickTo(wrapper, "left", { duration: 0.15, ease: "power2.out" });
-    const quickY = gsap.quickTo(wrapper, "top", { duration: 0.15, ease: "power2.out" });
-
-    let currentConfig = DEFAULT_CONFIG;
-    let targetRingOpacity = 0;
-
-    const onPointerMove = (e: PointerEvent) => {
-      quickX(e.clientX - HALF);
-      quickY(e.clientY - HALF);
-
-      const el = document.elementFromPoint(e.clientX, e.clientY);
-      const section = el?.closest<HTMLElement>("section[id]");
-      const sectionId = section?.id ?? "";
-      currentConfig = SECTION_CONFIGS[sectionId] ?? DEFAULT_CONFIG;
-      targetRingOpacity = currentConfig.ringVisible ? 0.55 : 0;
+    const show = () => {
+      if (visible) return;
+      visible = true;
+      wrapper.style.transition = "opacity 0.4s ease-out";
+      wrapper.style.opacity = "1";
+    };
+    const hide = () => {
+      if (!visible) return;
+      visible = false;
+      wrapper.style.transition = "opacity 0.25s ease-in";
+      wrapper.style.opacity = "0";
     };
 
-    const onPointerEnter = () => { wrapper.style.opacity = "1"; };
-    const onPointerLeave = () => { wrapper.style.opacity = "0"; };
-
-    document.addEventListener("pointermove", onPointerMove);
-    document.addEventListener("pointerenter", onPointerEnter);
-    document.addEventListener("pointerleave", onPointerLeave);
-
-    const clock = new THREE.Clock();
-    let frameId = 0;
-
-    const animate = () => {
-      const t = clock.getElapsedTime();
-      globe.rotation.y = t * currentConfig.speed;
-      globe.rotation.x = Math.sin(t * 0.4) * 0.3;
-
-      const breathe = 1 + Math.sin(t * 2) * 0.06;
-      globe.scale.set(breathe, breathe, breathe);
-
-      ring.rotation.z = t * 0.6;
-      ringMat.opacity += (targetRingOpacity - ringMat.opacity) * 0.08;
-
-      renderer.render(scene, camera);
-      frameId = requestAnimationFrame(animate);
+    const onMove = (e: MouseEvent) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      const inView =
+        e.clientX >= 0 &&
+        e.clientY >= 0 &&
+        e.clientX <= window.innerWidth &&
+        e.clientY <= window.innerHeight;
+      if (inView) show();
+      else hide();
+      const over = document.elementFromPoint(e.clientX, e.clientY)?.closest(INTERACTIVE);
+      targetScale = over ? 1.5 : 1;
     };
-    animate();
+
+    document.addEventListener("mousemove", onMove, { passive: true });
+    document.documentElement.addEventListener("mouseleave", hide);
+    document.documentElement.addEventListener("mouseenter", show);
+
+    const ease = 0.14;
+    const trailEase = 0.06;
+    const scaleEase = 0.12;
+
+    let rafId = 0;
+    const tick = () => {
+      cursorX += (mouseX - cursorX) * ease;
+      cursorY += (mouseY - cursorY) * ease;
+      trailX += (mouseX - trailX) * trailEase;
+      trailY += (mouseY - trailY) * trailEase;
+      scale += (targetScale - scale) * scaleEase;
+
+      wrapper.style.left = "0";
+      wrapper.style.top = "0";
+      wrapper.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
+
+      trail.style.transform = `translate(${trailX - cursorX}px, ${trailY - cursorY}px)`;
+      dot.style.transform = `translate(-50%, -50%) scale(${scale})`;
+      rafId = requestAnimationFrame(tick);
+    };
+    rafId = requestAnimationFrame(tick);
+
+    const t = setTimeout(show, 200);
 
     return () => {
-      cancelAnimationFrame(frameId);
-      document.removeEventListener("pointermove", onPointerMove);
-      document.removeEventListener("pointerenter", onPointerEnter);
-      document.removeEventListener("pointerleave", onPointerLeave);
-      renderer.dispose();
-      globeGeo.dispose();
-      globeMat.dispose();
-      ringGeo.dispose();
-      ringMat.dispose();
+      clearTimeout(t);
+      cancelAnimationFrame(rafId);
+      document.removeEventListener("mousemove", onMove);
+      document.documentElement.removeEventListener("mouseleave", hide);
+      document.documentElement.removeEventListener("mouseenter", show);
     };
   }, []);
 
   return (
     <div
       ref={wrapperRef}
-      className="pointer-events-none fixed z-[9999] opacity-0"
-      style={{ width: CURSOR_SIZE, height: CURSOR_SIZE }}
+      className="pointer-events-none fixed z-[9999] -translate-x-1/2 -translate-y-1/2"
+      style={{ width: 1, height: 1 }}
     >
-      <canvas ref={canvasRef} className="h-full w-full" />
+      {/* Rastro suave — segue com atraso */}
+      <div
+        ref={trailRef}
+        className="absolute left-0 top-0 rounded-full border border-amber-400/30 bg-amber-500/5"
+        style={{
+          width: TRAIL_SIZE,
+          height: TRAIL_SIZE,
+          marginLeft: -TRAIL_HALF,
+          marginTop: -TRAIL_HALF,
+          boxShadow: "0 0 30px rgba(251, 191, 36, 0.15), inset 0 0 20px rgba(251, 191, 36, 0.05)",
+        }}
+      />
+      {/* Ponto principal */}
+      <div
+        ref={dotRef}
+        className="absolute left-0 top-0 rounded-full border border-amber-300/50 bg-amber-400/90"
+        style={{
+          width: SIZE,
+          height: SIZE,
+          marginLeft: -HALF,
+          marginTop: -HALF,
+          boxShadow:
+            "0 0 20px rgba(251, 191, 36, 0.4), 0 0 40px rgba(251, 191, 36, 0.2), inset 0 0 12px rgba(255, 255, 255, 0.3)",
+        }}
+      />
     </div>
   );
 }
