@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
-import { pool } from "../db/pool.js";
+import { prisma } from "../db/prisma.js";
 
 export const authRouter = Router();
 
@@ -15,17 +15,17 @@ authRouter.post("/login", async (req: Request, res: Response) => {
       return res.status(400).json({ error: "Usuario e senha sao obrigatorios" });
     }
 
-    const { rows } = await pool.query(
-      "SELECT id, username, password_hash FROM admin_users WHERE LOWER(username) = LOWER($1)",
-      [username.trim()],
-    );
+    const user = await prisma.adminUser.findFirst({
+      where: {
+        username: { equals: username.trim(), mode: "insensitive" },
+      },
+    });
 
-    if (rows.length === 0) {
+    if (!user) {
       return res.status(401).json({ error: "Usuario ou senha invalidos" });
     }
 
-    const user = rows[0];
-    const valid = await bcrypt.compare(password, user.password_hash);
+    const valid = await bcrypt.compare(password, user.passwordHash);
     if (!valid) {
       return res.status(401).json({ error: "Usuario ou senha invalidos" });
     }
