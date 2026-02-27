@@ -11,9 +11,16 @@ import type {
   SiteData,
   SocialLink,
 } from "./types";
-import { initialData } from "./mock-data";
 
 const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
+
+const emptyData: SiteData = {
+  timeline: [],
+  memories: [],
+  legends: [],
+  playlist: [],
+  social: [],
+};
 
 interface DataContextValue {
   data: SiteData;
@@ -44,7 +51,7 @@ async function safeFetch<T>(url: string, fallback: T): Promise<T> {
 }
 
 export function DataProvider({ children }: { children: React.ReactNode }) {
-  const [data, setData] = useState<SiteData>(() => structuredClone(initialData));
+  const [data, setData] = useState<SiteData>(() => structuredClone(emptyData));
   const [loading, setLoading] = useState(true);
   const [backendOnline, setBackendOnline] = useState(false);
 
@@ -56,11 +63,11 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       setBackendOnline(true);
 
       const [timeline, legends, memories, playlist, social] = await Promise.all([
-        safeFetch<SiteData["timeline"]>(`${API}/api/content/timeline`, initialData.timeline),
-        safeFetch<SiteData["legends"]>(`${API}/api/content/legends`, initialData.legends),
-        safeFetch<SiteData["memories"]>(`${API}/api/content/memories`, initialData.memories),
-        safeFetch<SiteData["playlist"]>(`${API}/api/content/playlists`, initialData.playlist),
-        safeFetch<SiteData["social"]>(`${API}/api/content/social`, initialData.social),
+        safeFetch<SiteData["timeline"]>(`${API}/api/content/timeline`, []),
+        safeFetch<SiteData["legends"]>(`${API}/api/content/legends`, []),
+        safeFetch<SiteData["memories"]>(`${API}/api/content/memories`, []),
+        safeFetch<SiteData["playlist"]>(`${API}/api/content/playlists`, []),
+        safeFetch<SiteData["social"]>(`${API}/api/content/social`, []),
       ]);
       setData({ timeline, legends, memories, playlist, social });
     } catch {
