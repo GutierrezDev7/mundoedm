@@ -11,49 +11,40 @@ export function HeroSection() {
   const globeCanvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    if (!contentRef.current) return;
+    const container = contentRef.current;
+    if (!container) return;
 
     const ctx = gsap.context(() => {
-      gsap.from(".hero-globe", {
-        autoAlpha: 0,
-        scale: 0.92,
-        y: 20,
-        duration: 1,
-        ease: "power3.out",
-      });
+      gsap.fromTo(
+        ".hero-globe",
+        { autoAlpha: 0, scale: 0.92, y: 20 },
+        { autoAlpha: 1, scale: 1, y: 0, duration: 1, ease: "power3.out" },
+      );
 
-      gsap.from(".hero-title", {
-        autoAlpha: 0,
-        y: 12,
-        duration: 0.7,
-        delay: 0.12,
-        ease: "power3.out",
-      });
+      gsap.fromTo(
+        ".hero-title",
+        { autoAlpha: 0, y: 12 },
+        { autoAlpha: 1, y: 0, duration: 0.7, delay: 0.12, ease: "power3.out" },
+      );
 
-      gsap.from(".hero-subtitle", {
-        autoAlpha: 0,
-        y: 24,
-        duration: 0.8,
-        delay: 0.2,
-        ease: "power3.out",
-      });
+      gsap.fromTo(
+        ".hero-subtitle",
+        { autoAlpha: 0, y: 24 },
+        { autoAlpha: 1, y: 0, duration: 0.8, delay: 0.2, ease: "power3.out" },
+      );
 
-      gsap.from(".hero-cta", {
-        autoAlpha: 0,
-        scale: 0.96,
-        duration: 0.7,
-        delay: 0.3,
-        ease: "power3.out",
-      });
+      gsap.fromTo(
+        ".hero-cta",
+        { autoAlpha: 0, scale: 0.96 },
+        { autoAlpha: 1, scale: 1, duration: 0.7, delay: 0.3, ease: "power3.out" },
+      );
 
-      gsap.from(".scroll-indicator", {
-        autoAlpha: 0,
-        y: 10,
-        duration: 0.7,
-        delay: 0.3,
-        ease: "power3.out",
-      });
-    }, contentRef);
+      gsap.fromTo(
+        ".scroll-indicator",
+        { autoAlpha: 0, y: 10 },
+        { autoAlpha: 1, y: 0, duration: 0.7, delay: 0.3, ease: "power3.out" },
+      );
+    }, container);
 
     return () => ctx.revert();
   }, []);
@@ -231,13 +222,13 @@ export function HeroSection() {
         ref={contentRef}
         className="relative z-10 flex w-full max-w-5xl flex-col items-center rounded-3xl text-center"
       >
-        <div className="hero-globe relative mb-8 flex h-[240px] w-[240px] shrink-0 items-center justify-center sm:mb-10 sm:h-[280px] sm:w-[280px] md:h-[320px] md:w-[320px] lg:h-[360px] lg:w-[360px]">
+        <div className="hero-globe relative mb-8 flex h-[240px] w-[240px] shrink-0 items-center justify-center opacity-0 sm:mb-10 sm:h-[280px] sm:w-[280px] md:h-[320px] md:w-[320px] lg:h-[360px] lg:w-[360px]" style={{ visibility: "hidden" }}>
           <canvas ref={globeCanvasRef} className="absolute inset-0 h-full w-full" />
           
           <div className="pointer-events-none absolute inset-0 rounded-full bg-[radial-gradient(circle_at_50%_50%,rgba(251,191,36,0.09),rgba(0,0,0,0)_65%)]" />
           <div className="pointer-events-none absolute -inset-5 rounded-full bg-[radial-gradient(circle_at_50%_50%,rgba(15,23,42,0.8),rgba(0,0,0,0)_70%)] blur-3xl" />
 
-          <div className="hero-title relative z-10 flex items-center justify-center">
+          <div className="hero-title relative z-10 flex items-center justify-center opacity-0" style={{ visibility: "hidden" }}>
             <img
               src="/LOGO%202.png"
               alt="Logo Mundo EDM preta"
@@ -249,12 +240,12 @@ export function HeroSection() {
           </div>
         </div>
 
-        <p className="hero-subtitle mb-6 text-base font-light tracking-wide text-gray-400 sm:text-xl md:text-2xl lg:text-3xl">
+        <p className="hero-subtitle mb-6 text-base font-light tracking-wide text-gray-400 opacity-0 sm:text-xl md:text-2xl lg:text-3xl" style={{ visibility: "hidden" }}>
           <span className="block sm:inline">Um santuário digital para as memórias que moldaram </span>
           <span className="block sm:inline">a cultura da música eletrônica</span>
         </p>
 
-        <div className="hero-cta mb-8 flex flex-wrap items-center justify-center gap-3 text-xs uppercase tracking-widest sm:mb-10 sm:gap-4 sm:text-sm md:text-base">
+        <div className="hero-cta mb-8 flex flex-wrap items-center justify-center gap-3 text-xs uppercase tracking-widest opacity-0 sm:mb-10 sm:gap-4 sm:text-sm md:text-base" style={{ visibility: "hidden" }}>
           <span className="text-yellow-500">Nostalgia</span>
           <span className="text-white/80">-</span>
           <span className="text-yellow-400">Energia</span>
@@ -266,7 +257,8 @@ export function HeroSection() {
       <button
         type="button"
         onClick={scrollToNext}
-        className="scroll-indicator group absolute bottom-8 left-1/2 z-10 flex min-h-[44px] min-w-[44px] -translate-x-1/2 flex-col items-center justify-center gap-2 text-gray-600 transition-colors hover:text-yellow-500 sm:bottom-12"
+        className="scroll-indicator group absolute bottom-8 left-1/2 z-10 flex min-h-[44px] min-w-[44px] -translate-x-1/2 flex-col items-center justify-center gap-2 text-gray-600 opacity-0 transition-colors hover:text-yellow-500 sm:bottom-12"
+        style={{ visibility: "hidden" }}
       >
         <span className="text-xs uppercase tracking-wider sm:text-sm">Explorar</span>
         <ChevronDown className="h-5 w-5 shrink-0 animate-bounce group-hover:text-yellow-500 sm:h-6 sm:w-6" />
