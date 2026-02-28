@@ -13,10 +13,12 @@ function ShortCard({ item }: { item: MemoryItem }) {
       rel="noreferrer"
       className="group block"
     >
-      <div className="relative aspect-[9/16] w-40 overflow-hidden rounded-2xl border border-yellow-900/20 bg-gray-900 transition-all duration-500 hover:border-yellow-600/50 sm:w-44 md:w-48">
+      <div className="relative aspect-[9/16] w-[42vw] min-w-[130px] max-w-[192px] overflow-hidden rounded-2xl border border-yellow-900/20 bg-gray-900 transition-all duration-500 hover:border-yellow-600/50 sm:w-40 sm:min-w-0 sm:max-w-none md:w-44 lg:w-48">
         <img
           src={item.thumbnailUrl}
-          alt={item.title}
+          alt={item.title ?? ""}
+          loading="lazy"
+          decoding="async"
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-70 transition-opacity duration-500 group-hover:opacity-50" />
@@ -42,18 +44,18 @@ export function MemoriesGallery() {
   const { data } = useSiteData();
 
   return (
-    <section id="memories" className="relative overflow-hidden bg-transparent py-28 md:py-32">
+    <section id="memories" className="relative overflow-hidden bg-transparent py-20 md:py-28 lg:py-32">
       <div className="parallax-bg absolute inset-0 bg-gradient-to-b from-transparent via-yellow-950/5 to-transparent" />
       
 
-      <div className="relative z-10 mx-auto max-w-[1400px] px-6 md:px-12">
-        <div className="cin-entry mb-12 text-center">
-          <h2 className="mb-4 text-5xl font-bold text-white md:text-7xl">
+      <div className="relative z-10 mx-auto max-w-[1400px] px-4 sm:px-6 md:px-12">
+        <div className="cin-entry mb-10 text-center sm:mb-12">
+          <h2 className="mb-3 text-4xl font-bold text-white sm:text-5xl md:text-6xl lg:text-7xl">
             <span className="bg-gradient-to-r from-yellow-600 via-yellow-400 to-yellow-600 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(234,179,8,0.5)]">
               MEMÓRIAS
             </span>
           </h2>
-          <p className="text-lg text-gray-500">Momentos inesquecíveis em formato curto</p>
+          <p className="text-sm text-gray-500 sm:text-base md:text-lg">Momentos inesquecíveis em formato curto</p>
         </div>
       </div>
 

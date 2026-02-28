@@ -88,13 +88,13 @@ export function SocialSection() {
   };
 
   return (
-    <section id="social" className="relative overflow-hidden bg-transparent py-24 md:py-28">
-      <div className="parallax-bg absolute inset-0  from-transparent via-yellow-950/10 to-black/50" />
+    <section id="social" className="relative overflow-hidden bg-transparent py-16 md:py-24 lg:py-28">
+      <div className="parallax-bg absolute inset-0 bg-gradient-to-b from-transparent via-yellow-950/10 to-black/50" />
 
-      <div className="container relative z-10 mx-auto px-6">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
         <div className="cin-entry mx-auto max-w-3xl text-center">
-          <h2 className="mb-4 text-4xl font-bold text-white md:text-6xl">Social</h2>
-          <p className="mx-auto max-w-2xl text-gray-400 md:text-lg">
+          <h2 className="mb-3 text-3xl font-bold text-white sm:mb-4 sm:text-4xl md:text-5xl lg:text-6xl">Social</h2>
+          <p className="mx-auto max-w-2xl text-sm text-gray-400 sm:text-base md:text-lg">
             Entre para a comunidade com um único clique.
           </p>
         </div>
@@ -109,7 +109,7 @@ export function SocialSection() {
                   href={link.href}
                   target="_blank"
                   rel="noreferrer"
-                  className="group relative flex h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-white/5 text-gray-400 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:border-white/20"
+                  className="group relative flex h-12 w-12 min-h-[48px] min-w-[48px] items-center justify-center rounded-full border border-white/10 bg-white/5 text-gray-400 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:border-white/20 sm:h-14 sm:w-14"
                   style={{ "--social-color": color } as React.CSSProperties}
                   title={link.name}
                 >

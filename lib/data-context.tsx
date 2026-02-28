@@ -69,7 +69,13 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
         safeFetch<SiteData["playlist"]>(`${API}/api/content/playlists`, []),
         safeFetch<SiteData["social"]>(`${API}/api/content/social`, []),
       ]);
-      setData({ timeline, legends, memories, playlist, social });
+      setData({
+        timeline: Array.isArray(timeline) ? timeline : [],
+        legends: Array.isArray(legends) ? legends : [],
+        memories: Array.isArray(memories) ? memories : [],
+        playlist: Array.isArray(playlist) ? playlist : [],
+        social: Array.isArray(social) ? social : [],
+      });
     } catch {
       setBackendOnline(false);
     }

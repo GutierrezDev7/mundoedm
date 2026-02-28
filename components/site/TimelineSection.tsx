@@ -28,7 +28,9 @@ function TimelineCard({ item }: { item: TimelineItem }) {
         <div className="relative aspect-video bg-black">
           <img
             src={item.thumbnailUrl}
-            alt={item.title}
+            alt={item.title ?? ""}
+            loading="lazy"
+            decoding="async"
             className="h-full w-full object-cover"
           />
           <div className="absolute inset-0 flex items-center justify-center bg-black/50 transition-all duration-300 group-hover:bg-black/30">
@@ -47,7 +49,7 @@ function TimelineCard({ item }: { item: TimelineItem }) {
               <span className="text-sm font-bold text-yellow-500">{date}</span>
             </div>
           )}
-          <h3 className="line-clamp-2 text-xl font-bold text-white">{item.title}</h3>
+          <h3 className="line-clamp-2 text-base font-bold text-white sm:text-lg md:text-xl">{item.title}</h3>
         </div>
 
         <div className="pointer-events-none absolute inset-0 rounded-2xl bg-linear-to-br from-yellow-500/0 to-yellow-500/0 transition-all duration-500 group-hover:from-yellow-500/10 group-hover:to-yellow-600/5" />
@@ -71,20 +73,20 @@ export function TimelineSection() {
         <div className="absolute top-1/2 left-0 h-px w-full bg-linear-to-r from-transparent via-yellow-700/50 to-transparent" />
       </div>
 
-      <div className="relative z-10 mx-auto mb-8 max-w-[1400px] px-6 md:px-12">
-        <h2 className="mb-2 text-4xl font-bold text-white md:text-6xl">
+      <div className="relative z-10 mx-auto mb-6 max-w-[1400px] px-4 sm:mb-8 sm:px-6 md:px-12">
+        <h2 className="mb-2 text-3xl font-bold text-white sm:text-4xl md:text-5xl lg:text-6xl">
           <span className="bg-linear-to-r from-yellow-600 via-yellow-400 to-yellow-600 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(234,179,8,0.5)]">
             TIMELINE
           </span>
         </h2>
-        <p className="text-sm text-gray-500 md:text-base">
+        <p className="text-xs text-gray-500 sm:text-sm md:text-base">
           Navegue pelos momentos com as setas ou arraste lateralmente
         </p>
       </div>
 
       <HorizontalCarousel className="relative z-10 min-h-[52vh] items-center">
         {data.timeline.map((item) => (
-          <div key={item.id} className="w-[82vw] max-w-[540px] shrink-0 snap-start">
+          <div key={item.id} className="w-[85vw] max-w-[540px] shrink-0 snap-start sm:w-[82vw]">
             <TimelineCard item={item} />
           </div>
         ))}

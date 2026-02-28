@@ -178,12 +178,14 @@ body {
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
   background: #000000;
   color: #ededed;
   overflow-x: hidden;
+  min-width: 0;
 }
 
 @media (pointer: fine) {

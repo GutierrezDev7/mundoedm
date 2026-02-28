@@ -48,49 +48,55 @@ export function Navigation() {
             : "bg-transparent"
         }`}
       >
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <button
-              onClick={() => scrollToSection("hero")}
-              className="group flex items-center"
-            >
-              <img
-                src="/LOGO%202.png"
-                alt="Logo Mundo EDM branca"
-                className="h-10 w-auto transition-transform group-hover:scale-105 md:h-20"
-              />
-            </button>
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 sm:py-4">
+          <button
+            type="button"
+            onClick={() => scrollToSection("hero")}
+            className="flex min-h-[44px] min-w-[44px] items-center sm:min-w-0"
+          >
+            <img
+              src="/LOGO%202.png"
+              alt="Logo Mundo EDM"
+              width={120}
+              height={48}
+              decoding="async"
+              className="h-8 w-auto max-h-12 transition-transform hover:scale-105 sm:h-9 md:h-12 lg:h-16 xl:h-20"
+            />
+          </button>
 
-            <div className="hidden items-center space-x-8 md:flex">
-              {sections.map((section) => (
-                <button
-                  key={section.id}
-                  onClick={() => scrollToSection(section.id)}
-                  className="text-sm uppercase tracking-wider text-gray-400 transition-colors hover:text-yellow-500"
-                >
-                  {section.label}
-                </button>
-              ))}
-            </div>
-
-            <button
-              onClick={() => setIsMenuOpen((prev) => !prev)}
-              className="text-white md:hidden"
-            >
-              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </button>
+          <div className="hidden items-center gap-5 md:flex lg:gap-8">
+            {sections.map((section) => (
+              <button
+                key={section.id}
+                type="button"
+                onClick={() => scrollToSection(section.id)}
+                className="min-h-[44px] min-w-[44px] text-xs uppercase tracking-wider text-gray-400 transition-colors hover:text-yellow-500 lg:min-w-0 lg:text-sm"
+              >
+                {section.label}
+              </button>
+            ))}
           </div>
+
+          <button
+            type="button"
+            onClick={() => setIsMenuOpen((prev) => !prev)}
+            className="flex min-h-[44px] min-w-[44px] items-center justify-center text-white md:hidden"
+            aria-label={isMenuOpen ? "Fechar menu" : "Abrir menu"}
+          >
+            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
         </div>
       </nav>
 
       {isMenuOpen && (
         <div className="fixed inset-0 z-30 bg-black/98 backdrop-blur-xl md:hidden">
-          <div className="flex h-full flex-col items-center justify-center space-y-8">
+          <div className="flex h-full flex-col items-center justify-center gap-2 px-4 py-6 sm:gap-6">
             {sections.map((section) => (
               <button
                 key={section.id}
+                type="button"
                 onClick={() => scrollToSection(section.id)}
-                className="text-3xl uppercase tracking-wider text-gray-400 transition-colors hover:text-yellow-500"
+                className="min-h-[48px] w-full max-w-xs py-3 text-center text-2xl uppercase tracking-wider text-gray-400 transition-colors hover:text-yellow-500 sm:min-h-[52px] sm:text-3xl"
               >
                 {section.label}
               </button>

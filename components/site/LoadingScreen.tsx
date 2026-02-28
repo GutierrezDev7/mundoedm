@@ -20,6 +20,17 @@ export function LoadingScreen() {
   const { loading: backendLoading } = useSiteData();
 
   useEffect(() => {
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = LOGO_SRC;
+    document.head.appendChild(link);
+    return () => {
+      link.remove();
+    };
+  }, []);
+
+  useEffect(() => {
     const tryFinish = () => {
       if (contentReadyRef.current && readyToDismissRef.current) {
         setIsLoading(false);
@@ -31,22 +42,43 @@ export function LoadingScreen() {
   useEffect(() => {
     if (backendLoading !== false) return;
 
-    const onContentReady = () => {
-      contentReadyRef.current = true;
-      tryFinishRef.current?.();
-    };
+    let cancelled = false;
 
-    if (typeof document !== "undefined" && document.readyState === "complete") {
-      onContentReady();
-      return;
-    }
-    window.addEventListener("load", onContentReady);
-    return () => window.removeEventListener("load", onContentReady);
+    const waitForDocument = () =>
+      document.readyState === "complete"
+        ? Promise.resolve()
+        : new Promise<void>((resolve) => {
+            window.addEventListener("load", () => resolve(), { once: true });
+          });
+
+    const waitForFonts = () =>
+      typeof document !== "undefined" && document.fonts && document.fonts.ready
+        ? document.fonts.ready
+        : Promise.resolve();
+
+    const waitForLogo = () =>
+      new Promise<void>((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve();
+        img.onerror = () => resolve();
+        img.src = LOGO_SRC;
+      });
+
+    Promise.all([waitForDocument(), waitForFonts(), waitForLogo()]).then(() => {
+      if (!cancelled) {
+        contentReadyRef.current = true;
+        tryFinishRef.current?.();
+      }
+    });
+
+    return () => {
+      cancelled = true;
+    };
   }, [backendLoading]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas || typeof window === "undefined") return;
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
@@ -270,6 +302,10 @@ export function LoadingScreen() {
           <img
             src={LOGO_SRC}
             alt="Mundo EDM"
+            width={280}
+            height={112}
+            decoding="sync"
+            fetchPriority="high"
             className="h-16 w-auto object-contain drop-shadow-[0_0_20px_rgba(251,191,36,0.3)] md:h-35"
           />
           <p className="loading-subtitle mt-3 font-medium uppercase tracking-[0.4em] text-amber-200/90 text-xs md:tracking-[0.5em] md:text-sm">

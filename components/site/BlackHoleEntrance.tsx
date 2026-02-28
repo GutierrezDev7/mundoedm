@@ -28,6 +28,8 @@ export function BlackHoleEntrance({
     if (!container || !canvas || !overlay) return;
 
     const scene = new THREE.Scene();
+    scene.fog = new THREE.Fog(0x000000, 10, 100);
+
     const camera = new THREE.PerspectiveCamera(
       70,
       window.innerWidth / window.innerHeight,
@@ -46,8 +48,28 @@ export function BlackHoleEntrance({
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setClearColor(0x000000, 0);
 
-    const gold = new THREE.Color(0xfbbf24);
-    const dark = new THREE.Color(0x1a0a00);
+    const STARS_COUNT = 8000;
+    const starsArray = new Float32Array(STARS_COUNT * 3);
+    for (let i = 0; i < STARS_COUNT * 3; i++) {
+      starsArray[i] = (Math.random() - 0.5) * 200;
+    }
+    const starsGeo = new THREE.BufferGeometry();
+    starsGeo.setAttribute("position", new THREE.BufferAttribute(starsArray, 3));
+    const starsMat = new THREE.PointsMaterial({
+      size: 0.05,
+      color: 0xffffff,
+      transparent: true,
+      opacity: 0.8,
+      sizeAttenuation: true,
+    });
+    const stars = new THREE.Points(starsGeo, starsMat);
+    scene.add(stars);
+
+    const innerCore = new THREE.Color(0x030014);
+    const indigo = new THREE.Color(0x1e1b4b);
+    const violet = new THREE.Color(0x6366f1);
+    const blue = new THREE.Color(0x38bdf8);
+    const cyan = new THREE.Color(0x22d3ee);
 
     const posTunnel = new Float32Array(TUNNEL_PARTICLES * 3);
     const colorTunnel = new Float32Array(TUNNEL_PARTICLES * 3);
@@ -59,7 +81,7 @@ export function BlackHoleEntrance({
       posTunnel[i * 3 + 1] = Math.sin(theta) * r;
       posTunnel[i * 3 + 2] = z;
       const t = z / TUNNEL_DEPTH + 0.5;
-      const c = dark.clone().lerp(gold, t * 0.85 + 0.1);
+      const c = innerCore.clone().lerp(indigo, t * 0.3).lerp(violet, t * 0.5).lerp(blue, t * 0.75).lerp(cyan, t * 0.95 + 0.05);
       colorTunnel[i * 3] = c.r;
       colorTunnel[i * 3 + 1] = c.g;
       colorTunnel[i * 3 + 2] = c.b;
@@ -107,9 +129,9 @@ export function BlackHoleEntrance({
 
     const ringGeo = new THREE.RingGeometry(1.1, 1.6, 48);
     const ringMat = new THREE.MeshBasicMaterial({
-      color: 0xf59e0b,
+      color: 0x22d3ee,
       transparent: true,
-      opacity: 0.6,
+      opacity: 0.65,
       side: THREE.DoubleSide,
     });
     const ring = new THREE.Mesh(ringGeo, ringMat);
@@ -149,6 +171,8 @@ export function BlackHoleEntrance({
         ringMat.dispose();
         tunnelGeo.dispose();
         tunnelMat.dispose();
+        starsGeo.dispose();
+        starsMat.dispose();
         onComplete();
       },
       [],
@@ -165,6 +189,7 @@ export function BlackHoleEntrance({
       }
       tunnelGeo.attributes.position.needsUpdate = true;
       tunnel.rotation.y += dt * 0.4;
+      stars.rotation.y += dt * 0.02;
 
       camera.position.z = camPos.z;
       camera.lookAt(0, 0, camPos.z - 2);

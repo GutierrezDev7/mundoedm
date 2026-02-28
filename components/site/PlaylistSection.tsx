@@ -16,7 +16,9 @@ function PlaylistCard({ playlist }: { playlist: PlaylistItem }) {
       <div className="relative aspect-video overflow-hidden">
         <img
           src={playlist.thumbnailUrl}
-          alt={playlist.title}
+          alt={playlist.title ?? ""}
+          loading="lazy"
+          decoding="async"
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
@@ -41,17 +43,17 @@ export function PlaylistSection() {
   const { data } = useSiteData();
 
   return (
-    <section id="playlist" className="relative overflow-hidden bg-transparent py-24 md:py-28">
+    <section id="playlist" className="relative overflow-hidden bg-transparent py-16 md:py-24 lg:py-28">
       <div className="parallax-bg absolute inset-0 bg-gradient-to-b from-transparent via-yellow-950/5 to-transparent" />
 
-      <div className="relative z-10 mx-auto max-w-[1400px] px-6 md:px-12">
-        <div className="cin-entry mb-12 max-w-3xl">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-yellow-700/40 bg-yellow-900/20 px-4 py-2 text-xs uppercase tracking-[0.18em] text-yellow-500">
-            <Headphones className="h-4 w-4" />
+      <div className="relative z-10 mx-auto max-w-[1400px] px-4 sm:px-6 md:px-12">
+        <div className="cin-entry mb-10 max-w-3xl sm:mb-12">
+          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-yellow-700/40 bg-yellow-900/20 px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-yellow-500 sm:mb-4 sm:px-4 sm:py-2 sm:text-xs">
+            <Headphones className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             Playlists
           </div>
-          <h2 className="mb-4 text-4xl font-bold text-white md:text-6xl">Playlist Mundo EDM</h2>
-          <p className="max-w-2xl text-gray-400 md:text-lg">
+          <h2 className="mb-3 text-3xl font-bold text-white sm:mb-4 sm:text-4xl md:text-5xl lg:text-6xl">Playlist Mundo EDM</h2>
+          <p className="max-w-2xl text-sm text-gray-400 sm:text-base md:text-lg">
             Playlists direto do canal Mundo EDM no YouTube.
           </p>
         </div>

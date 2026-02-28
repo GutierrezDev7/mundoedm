@@ -222,16 +222,16 @@ export function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative flex min-h-screen items-center justify-center overflow-hidden"
+      className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 sm:px-6"
     >
       <div className="parallax-bg absolute inset-0 rounded-full bg-gradient-to-b from-transparent via-black/20 to-black/60" />
       <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_50%_50%,transparent_40%,black_100%)]" />
 
       <div
         ref={contentRef}
-        className="relative z-10 flex rounded-3xl max-w-5xl flex-col items-center px-6 text-center"
+        className="relative z-10 flex w-full max-w-5xl flex-col items-center rounded-3xl text-center"
       >
-        <div className="hero-globe  relative mb-10 flex h-[290px] w-[290px] items-center justify-center md:h-[360px] md:w-[360px]">
+        <div className="hero-globe relative mb-8 flex h-[240px] w-[240px] shrink-0 items-center justify-center sm:mb-10 sm:h-[280px] sm:w-[280px] md:h-[320px] md:w-[320px] lg:h-[360px] lg:w-[360px]">
           <canvas ref={globeCanvasRef} className="absolute inset-0 h-full w-full" />
           
           <div className="pointer-events-none absolute inset-0 rounded-full bg-[radial-gradient(circle_at_50%_50%,rgba(251,191,36,0.09),rgba(0,0,0,0)_65%)]" />
@@ -241,17 +241,20 @@ export function HeroSection() {
             <img
               src="/LOGO%202.png"
               alt="Logo Mundo EDM preta"
-              className="h-20 w-auto md:h-80"
+              width={280}
+              height={112}
+              decoding="async"
+              className="h-38 w-auto sm:h-45 md:h-50 lg:h-55 xl:h-60 2xl:h-80"
             />
           </div>
         </div>
 
-        <p className="hero-subtitle mb-6 text-xl font-light tracking-wide text-gray-400 md:text-3xl">
-          Um santuário digital para as memórias que moldaram
-          <br />a cultura da música eletrônica
+        <p className="hero-subtitle mb-6 text-base font-light tracking-wide text-gray-400 sm:text-xl md:text-2xl lg:text-3xl">
+          <span className="block sm:inline">Um santuário digital para as memórias que moldaram </span>
+          <span className="block sm:inline">a cultura da música eletrônica</span>
         </p>
 
-        <div className="hero-cta mb-10 flex flex-wrap items-center justify-center gap-4 text-sm uppercase tracking-widest md:text-base">
+        <div className="hero-cta mb-8 flex flex-wrap items-center justify-center gap-3 text-xs uppercase tracking-widest sm:mb-10 sm:gap-4 sm:text-sm md:text-base">
           <span className="text-yellow-500">Nostalgia</span>
           <span className="text-white/80">-</span>
           <span className="text-yellow-400">Energia</span>
@@ -261,11 +264,12 @@ export function HeroSection() {
       </div>
 
       <button
+        type="button"
         onClick={scrollToNext}
-        className="scroll-indicator group absolute bottom-12 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2 text-gray-600 transition-colors hover:text-yellow-500"
+        className="scroll-indicator group absolute bottom-8 left-1/2 z-10 flex min-h-[44px] min-w-[44px] -translate-x-1/2 flex-col items-center justify-center gap-2 text-gray-600 transition-colors hover:text-yellow-500 sm:bottom-12"
       >
-        <span className="text-sm uppercase tracking-wider">Explorar</span>
-        <ChevronDown className="h-6 w-6 animate-bounce group-hover:text-yellow-500" />
+        <span className="text-xs uppercase tracking-wider sm:text-sm">Explorar</span>
+        <ChevronDown className="h-5 w-5 shrink-0 animate-bounce group-hover:text-yellow-500 sm:h-6 sm:w-6" />
       </button>
     </section>
   );

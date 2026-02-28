@@ -32,7 +32,7 @@ function LegendCard({ legend, index }: { legend: LegendItem; index: number }) {
       href={legend.youtubeUrl}
       target="_blank"
       rel="noreferrer"
-      className="group relative block w-[55vw] max-w-[420px] shrink-0 overflow-hidden"
+      className="group relative block w-[80vw] max-w-[380px] shrink-0 overflow-hidden sm:w-[65vw] sm:max-w-[400px] md:w-[55vw] md:max-w-[420px]"
       style={{ transitionDelay: `${index * 0.07}s` }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -41,7 +41,9 @@ function LegendCard({ legend, index }: { legend: LegendItem; index: number }) {
         <img
           ref={imgRef}
           src={legend.thumbnailUrl}
-          alt={legend.title}
+          alt={legend.title ?? ""}
+          loading="lazy"
+          decoding="async"
           className="absolute inset-[-20px] h-[calc(100%+40px)] w-[calc(100%+40px)] object-cover will-change-transform"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent opacity-80 transition-opacity duration-500 group-hover:opacity-90" />
@@ -53,13 +55,13 @@ function LegendCard({ legend, index }: { legend: LegendItem; index: number }) {
           </div>
         </div>
 
-        <div className="absolute right-6 bottom-6 left-6 flex flex-col gap-2">
-          <h3 className="line-clamp-3 text-2xl font-bold leading-tight tracking-tight text-white md:text-3xl">
+        <div className="absolute right-3 bottom-3 left-3 flex flex-col gap-2 sm:right-6 sm:bottom-6 sm:left-6">
+          <h3 className="line-clamp-3 text-lg font-bold leading-tight tracking-tight text-white sm:text-xl md:text-2xl lg:text-3xl">
             {legend.title}
           </h3>
         </div>
 
-        <div className="pointer-events-none absolute bottom-0 left-6 h-px w-0 bg-gradient-to-r from-yellow-500 to-yellow-600 transition-all duration-700 group-hover:w-[calc(100%-3rem)]" />
+        <div className="pointer-events-none absolute bottom-0 left-3 h-px w-0 bg-gradient-to-r from-yellow-500 to-yellow-600 transition-all duration-700 group-hover:w-[calc(100%-1.5rem)] sm:left-6 sm:group-hover:w-[calc(100%-3rem)]" />
       </div>
     </a>
   );
@@ -116,12 +118,12 @@ export function LegendsSection() {
   return (
     <section id="legends" ref={sectionRef} className="relative overflow-hidden bg-transparent py-28 md:py-36">
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full opacity-15" />
-      <div className="parallax-bg absolute inset-0  from-transparent via-yellow-950/10 to-transparent" />
+      <div className="parallax-bg absolute inset-0 bg-gradient-to-b from-transparent via-yellow-950/10 to-transparent" />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6">
-        <div className="cin-entry mb-16 md:mb-24">
-          <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.3em] text-yellow-600/80">Hall of Fame</p>
-          <h2 className="shimmer-text max-w-2xl bg-gradient-to-r from-yellow-500 via-yellow-300 to-yellow-500 bg-clip-text text-5xl font-bold leading-[1.05] tracking-tight text-transparent md:text-7xl lg:text-8xl">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
+        <div className="cin-entry mb-12 md:mb-16 lg:mb-24">
+          <p className="mb-2 text-[10px] font-medium uppercase tracking-[0.3em] text-yellow-600/80 sm:text-[11px]">Hall of Fame</p>
+          <h2 className="shimmer-text max-w-2xl bg-gradient-to-r from-yellow-500 via-yellow-300 to-yellow-500 bg-clip-text text-4xl font-bold leading-[1.05] tracking-tight text-transparent sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
             Lendas do Movimento
           </h2>
         </div>
