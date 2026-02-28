@@ -13,6 +13,7 @@ import { Navigation } from "@/components/site/Navigation";
 import { LoadingScreen } from "@/components/site/LoadingScreen";
 import { UniverseBackground } from "@/components/site/UniverseBackground";
 import { CustomCursor } from "@/components/site/CustomCursor";
+import { MadeByRexium } from "@/components/site/MadeByRexium";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -63,6 +64,7 @@ export function MainExperience() {
       <UniverseBackground />
       <Navigation />
       <CustomCursor />
+      <MadeByRexium />
       <div ref={containerRef} className="site-root relative z-10">
         <HeroSection />
         <TimelineSection />
