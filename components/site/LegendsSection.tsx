@@ -116,7 +116,7 @@ export function LegendsSection() {
   return (
     <section id="legends" ref={sectionRef} className="relative overflow-hidden bg-transparent py-28 md:py-36">
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full opacity-15" />
-      <div className="parallax-bg absolute inset-0 bg-gradient-to-b from-transparent via-yellow-950/10 to-transparent" />
+      <div className="parallax-bg absolute inset-0  from-transparent via-yellow-950/10 to-transparent" />
 
       <div className="relative z-10 mx-auto max-w-7xl px-6">
         <div className="cin-entry mb-16 md:mb-24">
