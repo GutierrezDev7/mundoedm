@@ -1,17 +1,19 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import type React from "react";
 import gsap from "gsap";
 import { MessageCircleHeart } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 import type { SocialPlatform } from "@/lib/types";
+import { BlackHolePortal } from "@/components/site/BlackHolePortal";
+import { BlackHoleEntrance } from "@/components/site/BlackHoleEntrance";
 
 type SocialItem = { id: string; name: string; href: string; platform: SocialPlatform };
 
 const SOCIAL_LINKS: SocialItem[] = [
-  { id: "whatsapp", name: "WhatsApp", href: "https://wa.me/5511999999999", platform: "whatsapp" },
+  { id: "whatsapp", name: "WhatsApp", href: "https://chat.whatsapp.com/GPwC9dCq5Ei8pZhRM3sw53", platform: "whatsapp" },
   { id: "instagram", name: "Instagram", href: "https://instagram.com/mundoedmoficial", platform: "instagram" },
-  { id: "tiktok", name: "TikTok", href: "https://tiktok.com/@mundoedmoficial", platform: "tiktok" },
   { id: "youtube", name: "YouTube", href: "https://youtube.com/@mundoedmoficial", platform: "youtube" },
 ];
 
@@ -44,49 +46,46 @@ const PLATFORM_ICONS: Record<SocialPlatform, React.ReactNode> = {
 };
 
 export function SocialSection() {
-  const ctaRef = useRef<HTMLAnchorElement>(null);
-  const glowRef = useRef<HTMLSpanElement>(null);
+  const [showEntrance, setShowEntrance] = useState(false);
+  const ctaRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLParagraphElement>(null);
+  const arrowRef = useRef<HTMLDivElement>(null);
 
   const whatsappLink = SOCIAL_LINKS.find((l) => l.platform === "whatsapp");
   const otherLinks = SOCIAL_LINKS.filter((l) => l.platform !== "whatsapp");
 
   useEffect(() => {
-    const cta = ctaRef.current;
-    if (!cta) return;
-
-    const xTo = gsap.quickTo(cta, "x", { duration: 0.4, ease: "power3.out" });
-    const yTo = gsap.quickTo(cta, "y", { duration: 0.4, ease: "power3.out" });
-
-    const onMove = (e: PointerEvent) => {
-      const rect = cta.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-      const dx = e.clientX - cx;
-      const dy = e.clientY - cy;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      const maxDist = 180;
-      if (dist < maxDist) {
-        const strength = 1 - dist / maxDist;
-        xTo(dx * strength * 0.35);
-        yTo(dy * strength * 0.35);
-      } else {
-        xTo(0); yTo(0);
-      }
-    };
-
-    const onLeave = () => { xTo(0); yTo(0); };
-    document.addEventListener("pointermove", onMove);
-    cta.addEventListener("pointerleave", onLeave);
-
-    if (glowRef.current) {
-      gsap.to(glowRef.current, { opacity: 0.5, duration: 1.6, repeat: -1, yoyo: true, ease: "sine.inOut" });
-    }
-
-    return () => {
-      document.removeEventListener("pointermove", onMove);
-      cta.removeEventListener("pointerleave", onLeave);
-    };
+    if (!ctaRef.current) return;
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        ".portal-cta-text",
+        { opacity: 0, y: 16, filter: "blur(8px)" },
+        { opacity: 1, y: 0, filter: "blur(0px)", duration: 1, ease: "power3.out", delay: 0.2 },
+      );
+      gsap.fromTo(
+        ".portal-cta-arrow",
+        { opacity: 0, y: 8 },
+        { opacity: 1, y: 0, duration: 0.6, ease: "power2.out", delay: 0.5 },
+      );
+      gsap.to(".portal-cta-arrow", {
+        y: -6,
+        duration: 1.4,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        delay: 1,
+      });
+    }, ctaRef);
+    return () => ctx.revert();
   }, []);
+
+  const handleBlackHoleClick = () => {
+    setShowEntrance(true);
+  };
+
+  const handleEntranceComplete = () => {
+    setShowEntrance(false);
+  };
 
   return (
     <section id="social" className="relative overflow-hidden bg-transparent py-24 md:py-28">
@@ -127,31 +126,69 @@ export function SocialSection() {
           </div>
         )}
 
-        {whatsappLink && (
-          <div className="cin-entry mt-12 flex justify-center">
-            <a
-              ref={ctaRef}
-              href={whatsappLink.href}
-              target="_blank"
-              rel="noreferrer"
-              className="social-cta group relative inline-flex items-center gap-3 overflow-hidden rounded-full px-10 py-5 text-base font-bold text-yellow-200 will-change-transform"
-            >
-              <span className="absolute inset-0 rounded-full border border-yellow-500/30 transition-all duration-500 group-hover:border-yellow-400/60" />
-              <span className="absolute inset-[-2px] rounded-full opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+        <div
+          ref={ctaRef}
+          className="cin-entry mt-16 flex flex-col items-center justify-center gap-8 md:mt-20"
+        >
+          <button
+            type="button"
+            onClick={handleBlackHoleClick}
+            className="group relative flex flex-col items-center gap-8 transition-transform duration-500 hover:scale-[1.02] focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/50 focus-visible:ring-offset-4 focus-visible:ring-offset-transparent"
+            aria-label="Entrar no buraco negro e ir para o WhatsApp"
+          >
+            <div className="relative">
+              <div
+                className="pointer-events-none absolute -inset-12 rounded-full opacity-0 transition-opacity duration-500 group-hover:opacity-100"
                 style={{
-                  background: "conic-gradient(from var(--angle, 0deg), #fbbf24, #f59e0b, #d97706, #fbbf24)",
-                  mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-                  WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-                  maskComposite: "exclude", WebkitMaskComposite: "xor", padding: "2px",
+                  background: "radial-gradient(circle, rgba(34,211,238,0.08) 0%, rgba(139,92,246,0.06) 40%, transparent 70%)",
+                  filter: "blur(28px)",
                 }}
               />
-              <span className="absolute inset-0 rounded-full bg-gradient-to-r from-yellow-500/10 via-yellow-400/5 to-yellow-500/10 transition-all duration-500 group-hover:from-yellow-500/20 group-hover:via-yellow-400/10 group-hover:to-yellow-500/20" />
-              <span ref={glowRef} className="pointer-events-none absolute inset-0 rounded-full bg-[radial-gradient(circle_at_50%_50%,rgba(251,191,36,0.35),transparent_70%)] opacity-0" />
-              <MessageCircleHeart className="relative h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
-              <span className="relative uppercase tracking-[0.14em]">Faça parte da comunidade MUNDO EDM</span>
-              <span className="absolute inset-0 -translate-x-full skew-x-[-25deg] bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 transition-none group-hover:translate-x-full group-hover:opacity-100 group-hover:duration-700" />
-            </a>
-          </div>
+              <BlackHolePortal />
+              <div
+                ref={arrowRef}
+                className="portal-cta-arrow absolute -bottom-2 left-1/2 flex -translate-x-1/2 translate-y-0 flex-col items-center"
+              >
+                
+              </div>
+            </div>
+            <div ref={textRef} className="portal-cta-text flex flex-col items-center gap-1">
+              <span className="text-center text-sm font-medium uppercase tracking-[0.42em] text-white/70 md:tracking-[0.5em] md:text-base">
+                Faça parte do
+              </span>
+              <span
+                className="text-center font-semibold uppercase tracking-[0.28em] md:tracking-[0.32em]"
+                style={{
+                  background: "linear-gradient(110deg, #67e8f9 0%, #38bdf8 28%, #818cf8 55%, #a78bfa 82%, #c084fc 100%)",
+                  backgroundSize: "200% 100%",
+                  backgroundClip: "text",
+                  WebkitBackgroundClip: "text",
+                  color: "transparent",
+                  filter: "drop-shadow(0 0 24px rgba(34,211,238,0.25)) drop-shadow(0 2px 0 rgba(0,0,0,0.15))",
+                  fontSize: "clamp(1.25rem, 4vw, 1.75rem)",
+                  letterSpacing: "0.32em",
+                }}
+              >
+                Mundo EDM
+              </span>
+              <span
+                className="mt-3 h-px w-24 opacity-60"
+                style={{
+                  background: "linear-gradient(90deg, transparent, rgba(34,211,238,0.6), rgba(167,139,250,0.6), transparent)",
+                }}
+              />
+            </div>
+          </button>
+          <p className="max-w-sm text-center text-xs font-medium tracking-[0.2em] text-white/50 uppercase md:text-sm">
+            Clique no portal para entrar na comunidade
+          </p>
+        </div>
+
+        {showEntrance && (
+          <BlackHoleEntrance
+            onComplete={handleEntranceComplete}
+            whatsappUrl={whatsappLink?.href}
+          />
         )}
       </div>
     </section>

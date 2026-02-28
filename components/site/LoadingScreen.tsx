@@ -3,14 +3,46 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import * as THREE from "three";
+import { useSiteData } from "@/lib/data-context";
 
 const LOGO_SRC = "/LOGO%202.png";
+const LOADING_FALLBACK_MS = 12000;
 
 export function LoadingScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const progressRingRef = useRef<SVGCircleElement>(null);
   const wipeRef = useRef<HTMLDivElement>(null);
+  const contentReadyRef = useRef(false);
+  const readyToDismissRef = useRef(false);
+  const tryFinishRef = useRef<(() => void) | null>(null);
+
+  const { loading: backendLoading } = useSiteData();
+
+  useEffect(() => {
+    const tryFinish = () => {
+      if (contentReadyRef.current && readyToDismissRef.current) {
+        setIsLoading(false);
+      }
+    };
+    tryFinishRef.current = tryFinish;
+  }, []);
+
+  useEffect(() => {
+    if (backendLoading !== false) return;
+
+    const onContentReady = () => {
+      contentReadyRef.current = true;
+      tryFinishRef.current?.();
+    };
+
+    if (typeof document !== "undefined" && document.readyState === "complete") {
+      onContentReady();
+      return;
+    }
+    window.addEventListener("load", onContentReady);
+    return () => window.removeEventListener("load", onContentReady);
+  }, [backendLoading]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -110,8 +142,9 @@ export function LoadingScreen() {
     };
     window.addEventListener("resize", handleResize);
 
-    // ——— GSAP timeline ———
-    const fallbackTimer = window.setTimeout(() => setIsLoading(false), 7000);
+    const finishLoading = () => setIsLoading(false);
+
+    const fallbackTimer = window.setTimeout(finishLoading, LOADING_FALLBACK_MS);
 
     const tl = gsap.timeline({ delay: 0.2 });
     tl.to({}, { duration: 0.3 })
@@ -174,13 +207,15 @@ export function LoadingScreen() {
       3.2,
     );
 
-    // Saída: wipe circular
     tl.add(() => {
       gsap.to(wipeRef.current, {
         scale: 3.5,
         duration: 1,
         ease: "power3.in",
-        onComplete: () => setIsLoading(false),
+        onComplete: () => {
+          readyToDismissRef.current = true;
+          tryFinishRef.current?.();
+        },
       });
     }, 3.8);
 
