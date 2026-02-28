@@ -11,7 +11,6 @@ type SocialItem = { id: string; name: string; href: string; platform: SocialPlat
 const SOCIAL_LINKS: SocialItem[] = [
   { id: "whatsapp", name: "WhatsApp", href: "https://wa.me/5511999999999", platform: "whatsapp" },
   { id: "instagram", name: "Instagram", href: "https://instagram.com/mundoedmoficial", platform: "instagram" },
-  { id: "tiktok", name: "TikTok", href: "https://tiktok.com/@mundoedmoficial", platform: "tiktok" },
   { id: "youtube", name: "YouTube", href: "https://youtube.com/@mundoedmoficial", platform: "youtube" },
 ];
 
@@ -90,7 +89,7 @@ export function SocialSection() {
 
   return (
     <section id="social" className="relative overflow-hidden bg-transparent py-24 md:py-28">
-      <div className="parallax-bg absolute inset-0 bg-gradient-to-b from-transparent via-yellow-950/10 to-black/50" />
+      <div className="parallax-bg absolute inset-0  from-transparent via-yellow-950/10 to-black/50" />
 
       <div className="container relative z-10 mx-auto px-6">
         <div className="cin-entry mx-auto max-w-3xl text-center">
@@ -146,8 +145,7 @@ export function SocialSection() {
                 }}
               />
               <span className="absolute inset-0 rounded-full bg-gradient-to-r from-yellow-500/10 via-yellow-400/5 to-yellow-500/10 transition-all duration-500 group-hover:from-yellow-500/20 group-hover:via-yellow-400/10 group-hover:to-yellow-500/20" />
-              <span ref={glowRef} className="pointer-events-none absolute inset-0 rounded-full bg-[radial-gradient(circle_at_50%_50%,rgba(251,191,36,0.35),transparent_70%)] opacity-0" />
-              <MessageCircleHeart className="relative h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
+              
               <span className="relative uppercase tracking-[0.14em]">Faça parte da comunidade MUNDO EDM</span>
               <span className="absolute inset-0 -translate-x-full skew-x-[-25deg] bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 transition-none group-hover:translate-x-full group-hover:opacity-100 group-hover:duration-700" />
             </a>

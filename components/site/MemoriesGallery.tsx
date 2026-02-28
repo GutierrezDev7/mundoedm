@@ -44,10 +44,7 @@ export function MemoriesGallery() {
   return (
     <section id="memories" className="relative overflow-hidden bg-transparent py-28 md:py-32">
       <div className="parallax-bg absolute inset-0 bg-gradient-to-b from-transparent via-yellow-950/5 to-transparent" />
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(218,165,32,0.05),transparent_50%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(255,215,0,0.05),transparent_50%)]" />
-      </div>
+      
 
       <div className="relative z-10 mx-auto max-w-[1400px] px-6 md:px-12">
         <div className="cin-entry mb-12 text-center">
