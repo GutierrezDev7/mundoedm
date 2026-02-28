@@ -32,11 +32,11 @@ function TimelineCard({ item }: { item: TimelineItem }) {
             className="h-full w-full object-cover"
           />
           <div className="absolute inset-0 flex items-center justify-center bg-black/50 transition-all duration-300 group-hover:bg-black/30">
-            <div className="relative">
-              <div className="flex h-20 w-20 items-center justify-center rounded-full border border-yellow-500/50 bg-yellow-500/20 backdrop-blur-md transition-transform group-hover:scale-110">
+            <div className="relative h-24 w-24 shrink-0">
+              <div className="absolute inset-0 flex h-20 w-20 items-center justify-center rounded-full border border-yellow-500/50 bg-yellow-500/20 backdrop-blur-md transition-transform group-hover:scale-110 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
                 <Play className="ml-1 h-10 w-10 text-yellow-500" fill="currentColor" />
               </div>
-              <div className="absolute inset-0 rounded-full bg-yellow-500/30 blur-xl" />
+              <div className="absolute inset-0 h-20 w-20 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-yellow-500/30 blur-xl" />
             </div>
           </div>
         </div>
